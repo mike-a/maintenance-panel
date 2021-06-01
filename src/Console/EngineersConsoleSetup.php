@@ -10,6 +10,7 @@ namespace Vivinet\EngineersConsole\Console;
 
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class EngineersConsoleSetup extends Command
 {
@@ -48,21 +49,86 @@ class EngineersConsoleSetup extends Command
     {
         $action = $this->arguments()['action'];
 
-        switch ($action) {
-            case 'install_package':
-                return $this->installPackage();
-                break;
-            case 'dump':
-                return $this->dump();
-                break;
-            case 'update_project':
-                return $this->updateProject();
-                break;
-            case 'compile':
-                return $this->compileProject();
-                break;
-            default:
-                return "Given action not configured yet";
+        if($action) {
+            switch ($action) {
+                case 'install_package':
+                    $this->installPackage();
+                    break;
+                case 'dump':
+                    $this->dump();
+                    break;
+                case 'update_project':
+                    $this->updateProject();
+                    break;
+                case 'compile':
+                    $this->compileProject();
+                    break;
+                default:
+                    echo "unable to process given action";
+            }
+        } else {
+            Log::info("Action not provided");
+
+            echo "Please provide the necessary action";
+        }
+    }
+
+
+    /**
+     * install some given package
+     */
+    private function installPackage()
+    {
+        // @todo fix the functionality here
+    }
+
+
+    /**
+     * run composer dump
+     */
+    private function dump()
+    {
+        $this->runShellOnCoreCommand('composer dump');
+
+        echo "Dumped and autoloaded  successfully";
+    }
+
+
+    /**
+     * run composer update
+     */
+    private function updateProject()
+    {
+        $this->runShellOnCoreCommand('composer update');
+
+        echo "Project updated successfully";
+    }
+
+
+    /**
+     * compile assets
+     */
+    private function compileProject()
+    {
+        $this->runShellOnCoreCommand('npm install && npm run dev');
+
+        echo "Project assets compiled successfully";
+    }
+
+    /**
+     * @param $command
+     * run a shell command on the core
+     */
+    private function runShellOnCoreCommand($command)
+    {
+        try {
+            $project_path = dirname(dirname(dirname(dirname(dirname(dirname(__FILE__))))));
+
+            $output = shell_exec('cd ' . $project_path . ' && ' . $command);
+
+            Log::channel('daily')->info($output);
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
         }
     }
 }

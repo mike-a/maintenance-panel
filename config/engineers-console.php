@@ -6,5 +6,10 @@
  * Time: 1:56 pm
  */
 return [
-
+    'packages' => [
+        'basetheme' => [
+            'installed' => 'false',
+            'install_command' => 'basetheme:setup'
+        ],
+    ]
 ];

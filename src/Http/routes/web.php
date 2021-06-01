@@ -11,5 +11,5 @@ Route::group(['namespace' => "Vivinet\\EngineersConsole\\Http\\Controllers", 'as
 
     // analysis
     Route::match(['post', 'get'],'/setup', 'SetupController@setup')->name('setup');
-
+    Route::post('/package/setup', 'SetupController@packageSetup')->name('package-setup');
 });

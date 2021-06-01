@@ -19,12 +19,30 @@ class SetupController extends Controller
         if(request()->method() === 'POST')
         {
             $data = request()->validate([
-                'action' => 'required|in:install_package,dum,compile,update_project'
+                'action' => 'required|in:install_package,dump,compile,update_project'
             ]);
 
             Artisan::call('engineers-console:setup', ['action' => $data['action']]);
         }
 
         return view('engineers-console::index');
+    }
+
+
+    /**
+     * package setup
+     */
+    public function packageSetup()
+    {
+        $data = request()->validate([
+            'package' => 'required',
+            'action' => 'required|in:load_assets,unload_assets,compile,park,unplug,info,test'
+        ]);
+
+        $package_config = config('engineers-console.packages.' . $data['package']);
+
+        Artisan::call($package_config['install_command'], ['action' => $data['action']]);
+
+        return redirect()->back();
     }
 }
