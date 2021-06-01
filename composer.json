@@ -1,0 +1,30 @@
+{
+    "name": "vivinet/engineers-console",
+    "description": "An engineers console to easily manage core packages",
+    "type": "project",
+    "license": "All rights MikeA, Edinburgh, Scotland",
+    "authors": [
+        {
+            "name": "Mike A.",
+            "email": "mike.a@hotmail.co.uk"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "require-dev": {
+        "orchestra/testbench": "^5.17.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Vivinet\\EngineersConsole\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "classmap": [
+            "tests/TestCase.php"
+        ],
+        "psr-4": {
+            "Vivinet\\EngineersConsole\\Tests\\": "tests"
+        }
+    }
+}
