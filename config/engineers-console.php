@@ -1,15 +1,12 @@
-<?php
-/**
- * Created by PhpStorm
- * User: jjoek
- * Date: 6/1/21
- * Time: 1:56 pm
- */
-return [
-    'packages' => [
-        'basetheme' => [
-            'installed' => 'false',
-            'install_command' => 'basetheme:setup'
-        ],
-    ]
-];
+<?php return array (
+  'packages' =>
+  array (
+    'basetheme' =>
+    array (
+      'installed' => 'false',
+      'source_type' => 'path',
+      'url' => '/package-dev/vivinet/bastheme',
+      'install_command' => 'basetheme:setup',
+    ),
+  ),
+);
