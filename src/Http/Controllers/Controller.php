@@ -6,7 +6,7 @@
  * Time: 4:00 pm
  */
 
-namespace Vivinet\EngineersConsole\Http\Controllers;
+namespace Vivinet\MaintenancePanel\Http\Controllers;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;

@@ -5,12 +5,19 @@
  * Date: 6/1/21
  * Time: 2:07 pm
  */
-namespace Vivinet\EngineersConsole\Http\Controllers;
+namespace Vivinet\MaintenancePanel\Http\Controllers;
 
 use Illuminate\Support\Facades\Artisan;
+use Vivinet\MaintenancePanel\Http\Repositories\SetupRepository;
 
 class SetupController extends Controller
 {
+    protected $repo;
+
+    public function __construct(SetupRepository $repo)
+    {
+        $this->repo = $repo;
+    }
     /**
      * return the setup and configurations page
      */
@@ -28,15 +35,15 @@ class SetupController extends Controller
 
 
             if($data['action'] == 'install_package') {
-                $this->preparePackageInstallation($data);
+                $this->repo->preparePackageInstallation($data);
 
                 echo "Package installed successfully (added to config and json file updated to receive it)";
             } else {
-                Artisan::call('engineers-console:setup', ['action' => $data['action']]);
+                Artisan::call('maintenance-panel:setup', ['action' => $data['action']]);
             }
         }
 
-        return view('engineers-console::index');
+        return view('maintenance-panel::index');
     }
 
 
@@ -53,129 +60,21 @@ class SetupController extends Controller
 
         if($data['action'] === 'park')
         {
-            $this->installPackage($data);
+            $this->repo->installPackage($data);
 
             return redirect()->back();
         }  else {
 
             if($data['action'] === 'unplug') {
-                $data['action'] = 'unload_assets';
+                $this->repo->unplugPackage($data);
+
+            } else {
+                $package_config = config('maintenance-panel.packages.' . $data['package']);
+
+                Artisan::call($package_config['install_command'], ['action' => $data['action']]);
             }
 
-            $package_config = config('engineers-console.packages.' . $data['package']);
-
-            $output = Artisan::call($package_config['install_command'], ['action' => $data['action']]);
-
-            if($data['action'] === 'unload_assets')
-            {
-                $this->unplugPackage($data);
-            }
-
-            return redirect()->back()->with([
-                'output' => $output
-            ]);
+            return redirect()->back();
         }
-    }
-
-    public function installPackage($data)
-    {
-        $packages = config('engineers-console.packages');
-
-        $package = $packages[$data['package']];
-
-        // write to composer.json
-        $project_composer_file =dirname(config_path()) . '/composer.json';
-
-        $json = json_decode( file_get_contents($project_composer_file), true);
-
-        if($package['source_type'] === 'path') {
-            $json['require']['vivinet/' . $data['package']] = '@dev';
-        } else {
-            $json['require']['vivinet/' . $data['package']] = 'dev-master';
-        }
-
-        file_put_contents($project_composer_file, json_encode($json));
-
-        $this->dumpAndCompileProject();
-    }
-
-    /**
-     * @param $data
-     * basically remove the package assets(done prior)
-     * and now all we have to do is not require it in composer.json
-     */
-    public function unplugPackage($data)
-    {
-        $project_composer_file =dirname(config_path()) . '/composer.json';
-
-        $json = json_decode( file_get_contents($project_composer_file), true);
-
-        unset($json['require']['vivinet/' . $data['package']]);
-
-        file_put_contents($project_composer_file, json_encode($json));
-
-        $this->dumpAndCompileProject();
-    }
-
-    /**
-     * dump and compile the project
-     */
-    public function dumpAndCompileProject()
-    {
-        // dump on project
-        Artisan::call('engineers-console:setup', ['action' => 'dump']);
-        // compile project
-        Artisan::call('engineers-console:setup', ['action' => 'compile']);
-    }
-
-
-    /**
-     * prepare package installation
-     *
-     * 1. we update the config file first,
-     * 2. then let's update the composer json to accept the url
-     */
-    public function preparePackageInstallation($data)
-    {
-        $packages = config('engineers-console.packages');
-
-        if(array_key_exists($data['package_name'], $packages)) {
-            abort(422, "Package already exists");
-        } else {
-            config(['engineers-console.packages.' . $data['package_name'] => [
-                'installed' => 'false',
-                'source_type' => $data['source_type'],
-                'url' => $data['url'],
-                'install_command' => $data['install_command']
-            ]]);
-
-            $text = '<?php return ' . var_export(config('engineers-console'), true) . ';';
-
-            $config_path = dirname(dirname(dirname(dirname(__FILE__)))) . '/config/engineers-console.php';
-
-            file_put_contents($config_path, $text);
-        }
-
-        // write to composer.json
-        $project_composer_file =dirname(config_path()) . '/composer.json';
-
-        $json = json_decode( file_get_contents($project_composer_file), true);
-
-        if(!array_key_exists('repositories', $json)) {
-            $json['repositories'] = [];
-        }
-
-        array_push($json['repositories'], [
-            'type' => $data['source_type'],
-            'url' => $data['url']
-        ]);
-
-        if($data['source_type'] === 'path') {
-            $json['require']['vivinet/' . $data['package_name']] = '@dev';
-        } else {
-            $json['require']['vivinet/' . $data['package_name']] = 'dev-master';
-        }
-
-        file_put_contents($project_composer_file, json_encode($json));
     }
 }

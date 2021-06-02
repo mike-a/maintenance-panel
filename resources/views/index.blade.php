@@ -96,7 +96,7 @@
 
     <div class="container">
         <div class="group_item" style="margin-right: 10%">
-            <form action="{{ route('engineers-console.setup') }}" method="post">
+            <form action="{{ route('maintenance-panel.setup') }}" method="post">
                 <div style="display: flex; flex-direction: column">
                     <div style="padding: 5px 0">
                         <label>Package name</label>
@@ -122,21 +122,21 @@
         </div>
 
         <div class="group_item">
-            <form action="{{ route('engineers-console.setup') }}" method="post">
+            <form action="{{ route('maintenance-panel.setup') }}" method="post">
                 @csrf
                 <button name="action" value="compile" type="submit">Compile project</button>
             </form>
         </div>
 
         <div class="group_item">
-            <form action="{{ route('engineers-console.setup') }}" method="post">
+            <form action="{{ route('maintenance-panel.setup') }}" method="post">
                 @csrf
                 <button name="action" value="dump" type="submit">Dump</button>
             </form>
         </div>
 
         <div class="group_item">
-            <form action="{{ route('engineers-console.setup') }}" method="post">
+            <form action="{{ route('maintenance-panel.setup') }}" method="post">
                 @csrf
                 <button name="action" value="update_project" type="submit">Project update</button>
             </form>
@@ -146,7 +146,7 @@
 
 
     <div class="packages-setup">
-        @foreach(config('engineers-console.packages') as $name => $package)
+        @foreach(config('maintenance-panel.packages') as $name => $package)
 
             <?php $package_installed = command_exists($package['install_command']) ?>
 
@@ -156,7 +156,7 @@
                         {{ ucfirst($name) }}
                     </div>
                     <div class="package-action">
-                        <form action="{{ route('engineers-console.package-setup') }}" method="post">
+                        <form action="{{ route('maintenance-panel.package-setup') }}" method="post">
                             @csrf
                             <input hidden name="package" value="{{ $name }}"/>
                             <button  {{ $package_installed == false ? 'disabled' : '' }} name="action" value="compile" type="submit">Compile package</button>
@@ -186,28 +186,28 @@
                     </div>
 
                     <div class="package-action">
-                        <form action="{{ route('engineers-console.package-setup') }}" method="post">
+                        <form action="{{ route('maintenance-panel.package-setup') }}" method="post">
                             @csrf
                             <input hidden name="package" value="{{ $name }}"/>
                             <button {{ $package_installed == false ? '' : 'disabled' }} name="action" value="park" type="submit">Park</button>
                         </form>
                     </div>
                     <div class="package-action">
-                        <form action="{{ route('engineers-console.package-setup') }}" method="post">
+                        <form action="{{ route('maintenance-panel.package-setup') }}" method="post">
                             @csrf
                             <input hidden name="package" value="{{ $name }}"/>
                             <button  {{ $package_installed == false ? 'disabled' : '' }} name="action" value="unplug" type="submit">Unplug</button>
                         </form>
                     </div>
                     <div class="package-action">
-                        <form action="{{ route('engineers-console.package-setup') }}" method="post">
+                        <form action="{{ route('maintenance-panel.package-setup') }}" method="post">
                             @csrf
                             <input hidden name="package" value="{{ $name }}"/>
                             <button  {{ $package_installed == false ? 'disabled' : '' }} name="action" value="info" type="submit">Info</button>
                         </form>
                     </div>
                     <div class="package-action">
-                        <form action="{{ route('engineers-console.package-setup') }}" method="post">
+                        <form action="{{ route('maintenance-panel.package-setup') }}" method="post">
                             @csrf
                             <input hidden name="package" value="{{ $name }}"/>
                             <button  {{ $package_installed == false ? 'disabled' : '' }} name="action" value="test" type="submit">Test</button>

@@ -6,7 +6,7 @@
  * Time: 2:28 pm
  */
 
-namespace Vivinet\EngineersConsole\Tests;
+namespace Vivinet\MaintenancePanel\Tests;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Vivinet\Basetheme\BasethemeServiceProvider;

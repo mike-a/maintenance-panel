@@ -6,19 +6,19 @@
  * Time: 2:57 pm
  */
 
-namespace Vivinet\EngineersConsole\Console;
+namespace Vivinet\MaintenancePanel\Console;
 
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
-class EngineersConsoleSetup extends Command
+class MaintenancePanelSetup extends Command
 {
     /**
      * The name and signature of the console command.
      * @var string
      */
-    protected $signature = "engineers-console:setup {action : the type of action to execute i.e. install_package, compile_project, dump, 'project_update'}";
+    protected $signature = "maintenance-panel:setup {action : the type of action to execute i.e. install_package, compile_project, dump, 'project_update'}";
 
     /**
      * The console command description.

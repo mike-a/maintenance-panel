@@ -5,12 +5,12 @@
  * Date: 6/1/21
  * Time: 1:53 pm
  */
-namespace Vivinet\EngineersConsole;
+namespace Vivinet\MaintenancePanel;
 
 use Illuminate\Support\ServiceProvider;
-use Vivinet\EngineersConsole\Console\EngineersConsoleSetup;
+use Vivinet\MaintenancePanel\Console\MaintenancePanelSetup;
 
-class EngineersConsoleServiceProvider extends ServiceProvider
+class MaintenancePanelServiceProvider extends ServiceProvider
 {
     /**
      * hook services into the service container
@@ -28,7 +28,7 @@ class EngineersConsoleServiceProvider extends ServiceProvider
     public function register()
     {
         include_once(__DIR__.'/helpers.php');
-        $this->mergeConfigFrom(__DIR__ . '/../config/engineers-console.php', 'engineers-console');
+        $this->mergeConfigFrom(__DIR__ . '/../config/maintenance-panel.php', 'maintenance-panel');
     }
 
     /**
@@ -44,7 +44,7 @@ class EngineersConsoleServiceProvider extends ServiceProvider
      */
     private function views()
     {
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'engineers-console');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'maintenance-panel');
     }
 
     /**
@@ -53,7 +53,7 @@ class EngineersConsoleServiceProvider extends ServiceProvider
     private function loadCommands()
     {
         $this->commands([
-            EngineersConsoleSetup::class
+            MaintenancePanelSetup::class
         ]);
     }
 }

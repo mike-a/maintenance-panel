@@ -7,7 +7,7 @@
  */
 use Illuminate\Support\Facades\Route;
 
-Route::group(['namespace' => "Vivinet\\EngineersConsole\\Http\\Controllers", 'as' => 'engineers-console.', 'prefix' => 'engineers-console', 'middleware' => ['web']], function () {
+Route::group(['namespace' => "Vivinet\\MaintenancePanel\\Http\\Controllers", 'as' => 'maintenance-panel.', 'prefix' => 'maintenance-panel', 'middleware' => ['web']], function () {
 
     // analysis
     Route::match(['post', 'get'],'/setup', 'SetupController@setup')->name('setup');

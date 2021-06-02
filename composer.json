@@ -1,6 +1,6 @@
 {
-    "name": "vivinet/engineers-console",
-    "description": "An engineers console to easily manage core packages",
+    "name": "vivinet/maintenance-panel",
+    "description": "A maintenance panel to easily manage core packages",
     "type": "project",
     "license": "All rights MikeA, Edinburgh, Scotland",
     "authors": [
@@ -16,7 +16,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Vivinet\\EngineersConsole\\": "src"
+            "Vivinet\\MaintenancePanel\\": "src"
         }
     },
     "autoload-dev": {
@@ -24,7 +24,7 @@
             "tests/TestCase.php"
         ],
         "psr-4": {
-            "Vivinet\\EngineersConsole\\Tests\\": "tests"
+            "Vivinet\\MaintenancePanel\\Tests\\": "tests"
         }
     }
 }

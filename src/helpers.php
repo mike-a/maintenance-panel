@@ -12,7 +12,6 @@ if (!function_exists('command_exists')) {
      */
     function command_exists($name)
     {
-        return
-            array_key_exists($name, \Illuminate\Support\Facades\Artisan::all());
+        return array_key_exists($name, \Illuminate\Support\Facades\Artisan::all());
     }
 }
