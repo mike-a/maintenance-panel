@@ -44,4 +44,4 @@ before continuing. Once that is done, run `npm install && npm run dev` to instal
 Kindly check under the `znotes directory` for more in detail notes or request access to 
 scrivener notes. <br/>
 Also do take note of the Core usage across the documentation which refers to the laravel application to 
-which you've installed the basetheme
+which you've installed the maintenance-panel
