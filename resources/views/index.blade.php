@@ -99,7 +99,7 @@
             <form action="{{ route('maintenance-panel.setup') }}" method="post">
                 <div style="display: flex; flex-direction: column">
                     <div style="padding: 5px 0">
-                        <label>Package name</label>
+                        <label>Package name as is on composer.json second e.g basetheme</label>
                         <input type="text" name="package_name"/>
                     </div>
                     <div style="padding: 5px 0">

@@ -2,8 +2,8 @@ Basetheme Docs:
 
 ### Installation
 
-####### Local development
-To instal for local development, add the package service provider to your composer.json
+###### Local development
+To instal for local development, add the package link to your composer.json
 under autoload-dev section and remember to add the service provider in the core `config/app.php`
 under the providers list.
 
@@ -11,13 +11,13 @@ In composer:
 ```json
  "autoload-dev": {
         "psr-4": {
-            "Vivinet\\EngineersConsole\\": "package-dev/vivinet/engineers-console/src"
+            "Vivinet\\MaintenancePanel\\": "package-dev/vivinet/maintenance-panel/src"
         }
     },
 ```
 Then in the core config add the package provider:
 ```
-  \Vivinet\EngineersConsole\EngineersConsoleServiceProvider::class
+  \Vivinet\MaintenancePanel\MaintenancePanelServiceProvider::class
 ```
 
 ###### Production environment
@@ -29,11 +29,19 @@ your `composer.json` as shown below:
   "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/mike-a/engineers-console.git"
+            "url": "https://github.com/mike-a/maintenance-panel.git"
         }
     ],
 ```
 
+Finally: <br/>
+Run `composer update` to plugin the given package then ensure you have `nodejs` and `npm`  installed in your machine 
+before continuing. Once that is done, run `npm install && npm run dev` to install
+
+<br/>
+
 ##### Notes:
 Kindly check under the `znotes directory` for more in detail notes or request access to 
-scrivener notes
+scrivener notes. <br/>
+Also do take note of the Core usage across the documentation which refers to the laravel application to 
+which you've installed the basetheme
