@@ -1,12 +1,6 @@
 <?php return array (
-  'packages' => 
+  'packages' =>
   array (
-    'basetheme' => 
-    array (
-      'installed' => 'false',
-      'source_type' => 'path',
-      'url' => 'package-dev/vivinet/basetheme',
-      'install_command' => 'basetheme:setup',
-    ),
+
   ),
 );
