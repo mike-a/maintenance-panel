@@ -16,7 +16,7 @@ Lets get to the technical bits now, how exactly have the above been achieved.
 
 ###### Initialization
 To begin with, we know that this should be done via the browser. So first of we need some entry page where we can
-make this actions available to the user. And this can be accessed by visiting `/maintenance-panel/setup`, there we 
+make this actions available to the user. And this can be accessed by visiting `/maintenance-panel`, there we 
 return a simple page with the forms that make this actions possible: ![panel view image](./images/panelView.png)
 
 From above
