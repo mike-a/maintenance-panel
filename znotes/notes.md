@@ -126,7 +126,7 @@ just as the earlier, first validates the form inputs:
 ```php 
 $data = request()->validate([
     'package' => 'required',
-    'action' => 'required|in:load_assets,compile,park,unplug,info,test'
+    'action' => 'required|in:load_assets,compile,plug_in,unplug,info,test'
 ]);
 ```
 Well this looks simple right!!, that is because it is, here all we need is the action and the package name.
@@ -134,7 +134,7 @@ And as seen from the validator, the actions here are several:
 - load_assets,
 - unload_assets,
 - compile
-- park
+- ~~park~~ plug_in (or install)
 - unplug
 - info
 - test

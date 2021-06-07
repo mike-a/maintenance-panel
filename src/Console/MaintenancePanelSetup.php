@@ -115,18 +115,15 @@ class MaintenancePanelSetup extends Command
         echo "Project assets compiled successfully";
     }
 
-    /**
-     * @param $command
-     * run a shell command on the core
-     */
+
     private function runShellOnCoreCommand($command)
     {
         try {
             $project_path = dirname(dirname(dirname(dirname(dirname(dirname(__FILE__))))));
 
-            $output = shell_exec('cd ' . $project_path . ' && ' . $command);
+            $command = 'cd ' . $project_path . ' && ' . $command;
 
-            Log::channel('daily')->info($output);
+            runCommand($command);;
         } catch (\Exception $e) {
             Log::error($e->getMessage());
         }

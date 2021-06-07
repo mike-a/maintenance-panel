@@ -15,12 +15,12 @@ class SetupRepository
 {
     public function installPackage($data)
     {
-        $package = config('maintenance-panel.packages')[$data['package']];
+        $package = config('mp-packages')[$data['package']];
 
         // write to composer.json
         $project_composer_file =dirname(config_path()) . '/composer.json';
 
-        $json = json_decode( file_get_contents($project_composer_file), true);
+        $json = json_decode(file_get_contents($project_composer_file), true);
 
         if($package['source_type'] === 'path') {
             $json['require']['vivinet/' . $data['package']] = '@dev';
@@ -35,14 +35,14 @@ class SetupRepository
 
     /**
      * @param $data
-     * basically remove the package assets
-     * and not require it in composer.json
+     * basically remove the package assets from core
+     * and not require it in core composer.json
      * and thereafter run composer update
      */
     public function unplugPackage($data)
     {
         //unload package assets
-        $package_config = config('maintenance-panel.packages.' . $data['package']);
+        $package_config = config('mp-packages.' . $data['package']);
         Artisan::call($package_config['install_command'], ['action' => 'unload_assets']);
 
         // remove from composer.json
@@ -61,13 +61,13 @@ class SetupRepository
      */
     public function dumpAndUpdateProject($package)
     {
-        shell_exec('cd ' . dirname(config_path()) . '/vendor/vivinet && ' . ' rm -rf ' . $package);
+        runCommand('cd ' . dirname(config_path()) . '/vendor/vivinet && ' . ' rm -rf ' . $package);
+
         // update project
         Artisan::call('maintenance-panel:setup', ['action' => 'update_project']);
         // dump on project
         Artisan::call('maintenance-panel:setup', ['action' => 'dump']);
     }
-
 
     /**
      * prepare package installation
@@ -77,7 +77,7 @@ class SetupRepository
      */
     public function preparePackageInstallation($data)
     {
-        $packages = config('maintenance-panel.packages');
+        $packages = config('mp-packages');
 
         $this->addToPanelConfigFile($data, $packages);
 
@@ -93,16 +93,16 @@ class SetupRepository
         if(array_key_exists($data['package_name'], $packages)) {
             abort(422, "Package already exists");
         } else {
-            config(['maintenance-panel.packages.' . $data['package_name'] => [
+            config(['mp-packages.' . $data['package_name'] => [
                 'installed' => 'false',
                 'source_type' => $data['source_type'],
                 'url' => $data['url'],
                 'install_command' => $data['install_command']
             ]]);
 
-            $text = '<?php return ' . var_export(config('maintenance-panel'), true) . ';';
+            $text = '<?php return ' . var_export(config('mp-packages'), true) . ';';
 
-            $config_path = dirname(dirname(dirname(dirname(__FILE__)))) . '/config/maintenance-panel.php';
+            $config_path = dirname(dirname(dirname(dirname(__FILE__)))) . '/config/packages.php';
 
             file_put_contents($config_path, $text);
         }

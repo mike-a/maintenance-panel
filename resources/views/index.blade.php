@@ -99,7 +99,7 @@
             <form action="{{ route('maintenance-panel.setup') }}" method="post">
                 <div style="display: flex; flex-direction: column">
                     <div style="padding: 5px 0">
-                        <label>Package name as is on composer.json second e.g basetheme</label>
+                        <label>Package name as is on composer.json second part of the name e.g basetheme</label>
                         <input type="text" name="package_name"/>
                     </div>
                     <div style="padding: 5px 0">
@@ -116,7 +116,7 @@
                     </div>
 
                     @csrf
-                    <button name="action" value="install_package" type="submit">Install package</button>
+                    <button name="action" value="install_package" type="submit">Add package</button>
                 </div>
             </form>
         </div>
@@ -146,7 +146,7 @@
 
 
     <div class="packages-setup">
-        @foreach(config('maintenance-panel.packages') as $name => $package)
+        @foreach(config('mp-packages') as $name => $package)
 
             <?php $package_installed = command_exists($package['install_command']) ?>
 
@@ -159,7 +159,7 @@
                         <form action="{{ route('maintenance-panel.package-setup') }}" method="post">
                             @csrf
                             <input hidden name="package" value="{{ $name }}"/>
-                            <button  {{ $package_installed == false ? 'disabled' : '' }} name="action" value="compile" type="submit">Compile package</button>
+                            <button  {{ $package_installed == false ? 'disabled' : '' }} name="action" value="compile_package" type="submit">Compile package</button>
                         </form>
                     </div>
 
@@ -189,7 +189,7 @@
                         <form action="{{ route('maintenance-panel.package-setup') }}" method="post">
                             @csrf
                             <input hidden name="package" value="{{ $name }}"/>
-                            <button {{ $package_installed == false ? '' : 'disabled' }} name="action" value="park" type="submit">Park</button>
+                            <button {{ $package_installed == false ? '' : 'disabled' }} name="action" value="plug_in" type="submit">Plug in</button>
                         </form>
                     </div>
                     <div class="package-action">

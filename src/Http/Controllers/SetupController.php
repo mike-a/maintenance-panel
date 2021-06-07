@@ -55,10 +55,10 @@ class SetupController extends Controller
     {
         $data = request()->validate([
             'package' => 'required',
-            'action' => 'required|in:load_assets,compile,park,unplug,info,test'
+            'action' => 'required|in:load_assets,compile_package,plug_in,unplug,info,test'
         ]);
 
-        if($data['action'] === 'park')
+        if($data['action'] === 'plug_in')
         {
             $this->repo->installPackage($data);
 
@@ -69,7 +69,7 @@ class SetupController extends Controller
                 $this->repo->unplugPackage($data);
 
             } else {
-                $package_config = config('maintenance-panel.packages.' . $data['package']);
+                $package_config = config('mp-packages.' . $data['package']);
 
                 Artisan::call($package_config['install_command'], ['action' => $data['action']]);
             }

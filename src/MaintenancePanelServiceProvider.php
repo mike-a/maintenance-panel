@@ -28,7 +28,7 @@ class MaintenancePanelServiceProvider extends ServiceProvider
     public function register()
     {
         include_once(__DIR__.'/helpers.php');
-        $this->mergeConfigFrom(__DIR__ . '/../config/maintenance-panel.php', 'maintenance-panel');
+        $this->mergeConfigFrom(__DIR__ . '/../config/packages.php', 'mp-packages');
     }
 
     /**
