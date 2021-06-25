@@ -15,6 +15,7 @@ class SetupRepository
 {
     public function installPackage($data)
     {
+        //dd($data, $package_config);
         $package = config('maintenance-panel.packages')[$data['package']];
 
         // write to composer.json
@@ -28,9 +29,30 @@ class SetupRepository
             $json['require']['vivinet/' . $data['package']] = 'dev-master';
         }
 
+        //As repositories are private we need to add them in the repository sections
+        //check if the  entry is not the array
+        $check_repository = $this->verify_before_add_repository($json['repositories'], $package['url']);
+        //dd($package, $check_repository,"check point 1");
+        if(!$check_repository){
+            $json['repositories'][] = (object)[
+                'type' => $package['source_type'],
+                'url' => $package['url']
+            ];
+        }
+        //dd($json);
         file_put_contents($project_composer_file, json_encode($json));
 
         $this->dumpAndUpdateProject($data['package']);
+    }
+
+    private function verify_before_add_repository($repos, $name) : bool{
+        $pattern = "#(".$name.")#";
+        //echo $pattern;
+        foreach($repos AS $repo){
+            if(preg_match($pattern, $repo['url']))
+                return false;
+        }
+        return false;
     }
 
     /**
@@ -43,16 +65,20 @@ class SetupRepository
     {
         //unload package assets
         $package_config = config('maintenance-panel.packages.' . $data['package']);
-        Artisan::call($package_config['install_command'], ['action' => 'unload_assets']);
+
+        Artisan::call($package_config['install_command'], ['action' =>'unload_assets']);
 
         // remove from composer.json
         $project_composer_file =dirname(config_path()) . '/composer.json';
         $json = json_decode(file_get_contents($project_composer_file), true);
+
         unset($json['require']['vivinet/' . $data['package']]);
         file_put_contents($project_composer_file, json_encode($json));
 
         //dump and update project
         $this->dumpAndUpdateProject($data['package']);
+
+        //dd($json['require'], $data['package'], Artisan::all());
     }
 
     /**
@@ -61,7 +87,9 @@ class SetupRepository
      */
     public function dumpAndUpdateProject($package)
     {
-        shell_exec('cd ' . dirname(config_path()) . '/vendor/vivinet && ' . ' rm -rf ' . $package);
+        //dd($package);
+        $remove_package_vendor = shell_exec('cd ' . dirname(config_path()) . '/vendor/vivinet && ' . ' rm -rf ' . $package);
+        //dd($remove_package_vendor);
         // update project
         Artisan::call('maintenance-panel:setup', ['action' => 'update_project']);
         // dump on project

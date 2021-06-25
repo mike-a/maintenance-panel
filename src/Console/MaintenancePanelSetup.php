@@ -99,8 +99,9 @@ class MaintenancePanelSetup extends Command
      */
     private function updateProject()
     {
+        //dd("Are you here");
         $this->runShellOnCoreCommand('composer update');
-
+        //dd("Are you dane!");
         echo "Project updated successfully";
     }
 
@@ -122,10 +123,11 @@ class MaintenancePanelSetup extends Command
     private function runShellOnCoreCommand($command)
     {
         try {
-            $project_path = dirname(dirname(dirname(dirname(dirname(dirname(__FILE__))))));
+            $project_path = dirname(config_path());
+            //$project_path = dirname(dirname(dirname(dirname(dirname(dirname(__FILE__))))));
 
             $output = shell_exec('cd ' . $project_path . ' && ' . $command);
-
+            //dd($output, $project_path, $command, __FILE__, config_path());
             Log::channel('daily')->info($output);
         } catch (\Exception $e) {
             Log::error($e->getMessage());

@@ -23,6 +23,7 @@ class SetupController extends Controller
      */
     public function setup()
     {
+        //dd(request()->all());
         if(request()->method() === 'POST')
         {
             $data = request()->validate([
@@ -32,7 +33,7 @@ class SetupController extends Controller
                 'source_type' => 'required_if:action,install_package',
                 'install_command' => 'required_if:action,install_package',
             ]);
-
+            //dd($data);
 
             if($data['action'] == 'install_package') {
                 $this->repo->preparePackageInstallation($data);
@@ -57,20 +58,21 @@ class SetupController extends Controller
             'package' => 'required',
             'action' => 'required|in:load_assets,compile,park,unplug,info,test'
         ]);
-
+        //dd($data);
         if($data['action'] === 'park')
         {
             $this->repo->installPackage($data);
 
             return redirect()->back();
         }  else {
-
+            //dd("Donr");
             if($data['action'] === 'unplug') {
+                //dd($data);
                 $this->repo->unplugPackage($data);
 
             } else {
                 $package_config = config('maintenance-panel.packages.' . $data['package']);
-
+                //dd($package_config['install_command'], ['action' => $data['action']]);
                 Artisan::call($package_config['install_command'], ['action' => $data['action']]);
             }
 
