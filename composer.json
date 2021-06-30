@@ -13,7 +13,7 @@
     "repositories": [
         {
             "type": "vcs",
-            "path": "https://github.com/mike-a/user-management.git"
+            "url": "https://github.com/mike-a/user-management.git"
         }
     ],
     "require": {
