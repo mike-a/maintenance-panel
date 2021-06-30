@@ -19,30 +19,41 @@ class SetupRepository
         $package = config('maintenance-panel.packages')[$data['package']];
 
         // write to composer.json
-        $project_composer_file =dirname(config_path()) . '/composer.json';
+        if(!command_exists($package['install_command'])) {
+            $project_composer_file = dirname(config_path()) . '/composer.json';
 
-        $json = json_decode( file_get_contents($project_composer_file), true);
+            $json = json_decode(file_get_contents($project_composer_file), true);
 
-        if($package['source_type'] === 'path') {
-            $json['require']['vivinet/' . $data['package']] = '@dev';
-        } else {
-            $json['require']['vivinet/' . $data['package']] = 'dev-master';
+            //Here make sure not to add single row multiple times
+            $check_require = $this->verify_before_add_require($json['require'], 'vivinet/' . $data['package']);
+            if (!$check_require) {
+                if ($package['source_type'] === 'path') {
+                    $json['require']['vivinet/' . $data['package']] = '@dev';
+                } else {
+                    $json['require']['vivinet/' . $data['package']] = 'dev-master';
+                }
+            }
+
+            //As repositories are private we need to add them in the repository sections
+            //check if the  entry is not the array
+            $check_repository = $this->verify_before_add_repository($json['repositories'], $package['url']);
+            //dd($package, $check_repository,"check point 1");
+            if (!$check_repository) {
+                $json['repositories'][] = (object)[
+                    'type' => $package['source_type'],
+                    'url' => $package['url']
+                ];
+            }
+            //dd($json);
+            file_put_contents($project_composer_file, json_encode($json, JSON_PRETTY_PRINT));
         }
-
-        //As repositories are private we need to add them in the repository sections
-        //check if the  entry is not the array
-        $check_repository = $this->verify_before_add_repository($json['repositories'], $package['url']);
-        //dd($package, $check_repository,"check point 1");
-        if(!$check_repository){
-            $json['repositories'][] = (object)[
-                'type' => $package['source_type'],
-                'url' => $package['url']
-            ];
-        }
-        //dd($json);
-        file_put_contents($project_composer_file, json_encode($json));
-
         $this->dumpAndUpdateProject($data['package']);
+    }
+
+    private function verify_before_add_require($requires, $required) : bool {
+        if(array_key_exists($required, $requires))
+            return true;
+        return false;
     }
 
     private function verify_before_add_repository($repos, $name) : bool{

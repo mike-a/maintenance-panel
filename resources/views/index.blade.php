@@ -90,10 +90,15 @@
 </head>
 <body class="wrapper">
 
+@guest()
+    @includeIf('user-management::include')
+
+@else
     @if($errors->any())
         {!! implode('', $errors->all('<div style="color: red">:message</div> <br/>')) !!}
     @endif
-
+    <!-- Here Make sure to include the nagivation menu of the usermanagement -->
+    @includeIf('user-management::components.user-header')
     <div class="container">
         <div class="group_item" style="margin-right: 10%">
             <form action="{{ route('maintenance-panel.setup') }}" method="post">
@@ -225,5 +230,6 @@
             </div>
         @endforeach
     </div>
+@endguest
 </body>
 </html>
