@@ -17,7 +17,7 @@
         }
     ],
     "require": {
-        "vivinet/user-management": "master"
+        "vivinet/user-management": "dev-master"
     },
     "require-dev": {
         "orchestra/testbench": "^5.17.0"
