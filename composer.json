@@ -10,7 +10,15 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {},
+    "repositories": [
+        {
+            "type": "vcs",
+            "path": "https://github.com/mike-a/user-management.git"
+        }
+    ],
+    "require": {
+        "vivinet/user-management": "master"
+    },
     "require-dev": {
         "orchestra/testbench": "^5.17.0"
     },
