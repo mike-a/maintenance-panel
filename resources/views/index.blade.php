@@ -122,6 +122,36 @@
             display: inline;
             font-size: 18px;
         }
+
+        #login-flap {
+            position: fixed;
+            top: 0;
+            z-index: 9999;
+            height: 100vh;
+            width: 544px;
+            background-color: #fff;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            color: #fff;
+            text-align: center;
+            right: 0;
+            transform: translate(100%);
+        }
+
+        #register-flap {
+            position: fixed;
+            top: 0;
+            z-index: 9999;
+            height: 100vh;
+            width: 544px;
+            background-color: #fff;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            color: #fff;
+            text-align: center;
+            right: 0;
+            transform: translate(100%);
+        }
     </style>
 </head>
 <body class="wrapper">
@@ -144,7 +174,6 @@
     </div>
 </div>
 @guest()
-
     @includeIf('user-management::include')
 @else
     @if($errors->any())
@@ -285,9 +314,3 @@
 @endguest
 </body>
 </html>
-<script src="/js/app.js"></script>
-<script>
-    $(document).ready(function(){
-        alert("Done!");
-    });
-</script>
