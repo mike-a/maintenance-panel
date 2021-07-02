@@ -6,7 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Engineers console</title>
-
+    <link rel="stylesheet" href="/css/app.css">
     <style>
         .wrapper {
             padding: 30px 0;
@@ -86,19 +86,100 @@
             stroke-dashoffset: 101;
             transition: all 350ms cubic-bezier(1, 0, 0.37, 0.91);
         }
+
+        .btn-link {
+            display: inline;
+            padding: 0;
+            font-size: inherit;
+            color: #00458b;
+            text-decoration: none;
+            white-space: nowrap;
+            cursor: pointer;
+            user-select: none;
+            background-color: transparent;
+            border: 0;
+            appearance: none;
+        }
+
+        .header button {
+            border: none;
+            background: 0 0;
+            cursor: pointer;
+            /*display: block;*/
+            color: #00458b;
+            font-size: 20px;
+            width: auto;
+        }
+
+        .menu-item li{
+            display: inline;
+        }
+
+        .menu-item ul li .btn-link {
+            color: white;
+            text-decoration: none !important;
+            padding: 8px 16px;
+            display: inline;
+            font-size: 18px;
+        }
+
+        #login-flap {
+            position: fixed;
+            top: 0;
+            z-index: 9999;
+            height: 100vh;
+            width: 544px;
+            background-color: #fff;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            color: #fff;
+            text-align: center;
+            right: 0;
+            transform: translate(100%);
+        }
+
+        #register-flap {
+            position: fixed;
+            top: 0;
+            z-index: 9999;
+            height: 100vh;
+            width: 544px;
+            background-color: #fff;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            color: #fff;
+            text-align: center;
+            right: 0;
+            transform: translate(100%);
+        }
     </style>
 </head>
 <body class="wrapper">
+<div class="row header1">
+    <div class="column h1-left">
+        <div>I-We.me - Engineer Console</div>
+    </div>
+    <div class="column h1-right">
+        <div class="row h1-right-content">
+            <div class="column sign">
+                <div class="row">
+                    @includeIf('user-management::components.user-header')
+                    <!-- <div class="sign-in">sign in</div>
+                    <div class="slash">/</div>
+                    <div class="sign-up">sign up</div>-->
+                </div>
+            </div>
+        </div>
 
+    </div>
+</div>
 @guest()
     @includeIf('user-management::include')
-
 @else
     @if($errors->any())
         {!! implode('', $errors->all('<div style="color: red">:message</div> <br/>')) !!}
     @endif
     <!-- Here Make sure to include the nagivation menu of the usermanagement -->
-    @includeIf('user-management::components.user-header')
     <div class="container">
         <div class="group_item" style="margin-right: 10%">
             <form action="{{ route('maintenance-panel.setup') }}" method="post">
