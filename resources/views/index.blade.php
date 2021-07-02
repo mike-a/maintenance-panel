@@ -6,6 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Engineers console</title>
+    <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap.css"  />
     <link rel="stylesheet" href="/css/app.css">
     <style>
         .wrapper {
@@ -125,17 +126,27 @@
 
         #login-flap {
             position: fixed;
-            top: 0;
+            /*top: 0;*/
             z-index: 9999;
-            height: 100vh;
+            /*height: 100vh;*/
             width: 544px;
             background-color: #fff;
-            overflow-y: scroll;
-            overflow-x: hidden;
-            color: #fff;
+            /*overflow-y: scroll;*/
+            /*overflow-x: hidden;*/
+            color: #040404;
             text-align: center;
-            right: 0;
+            /*right: 0;*/
             transform: translate(100%);
+        }
+
+        #login-flap .header-section {
+            background-color: #95dbe5ff;
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 32px;
+            font-size: 24px;
+            align-items: baseline;
+            color: #00458b;
         }
 
         #register-flap {
