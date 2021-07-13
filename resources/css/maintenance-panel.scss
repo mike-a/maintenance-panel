@@ -1,0 +1,76 @@
+@import "design";
+@mixin header($color, $background){
+    color: $color;
+    background-color: $background;
+}
+
+@mixin btn($width, $padding:5px){
+    margin: 5px;
+    width: $width;
+    padding: $padding;
+    color: $button-text-color-primary;
+}
+
+@mixin textFont($size){
+    font-family: sans-serif;
+    font-size: $size;
+}
+
+@mixin inputText($padding){
+    padding: $padding;
+    border: thin darkgray ridge;
+}
+
+header{
+    @include header($header-text-color, $header-background);
+    @include textFont(30px);
+    text-align: center;
+    border-bottom: thin white ridge;
+    padding: 20px;
+}
+
+footer{
+    @include header($header-text-color, $header-background);
+    @include textFont(32px);
+    text-align: center;
+    padding: 20px;
+
+}
+
+.btn-block {
+    @include btn(100%);
+    @include textFont(18px);
+}
+
+.btn-sm {
+    @include textFont(12px);
+}
+
+.group_item {
+    display: flex;
+}
+
+.packages-setup{
+    margin-top: $default-padding;
+    .package-item{
+        display: flex;
+        flex-direction: column;
+        .container{
+            display: flex;
+            flex-direction: row;
+
+            div{
+                flex: 1 0 11.5%;
+            }
+        }
+    }
+}
+
+form{
+    width: 100%;
+
+    input[type="text"]{
+        @include inputText(5px);
+        @include textFont(16px);
+    }
+}

@@ -9,6 +9,9 @@ namespace Vivinet\MaintenancePanel;
 
 use Illuminate\Support\ServiceProvider;
 use Vivinet\MaintenancePanel\Console\MaintenancePanelSetup;
+use Vivinet\MaintenancePanel\Http\View\Components\Content;
+use Vivinet\MaintenancePanel\Http\View\Components\Header;
+use Vivinet\MaintenancePanel\Http\View\Components\RightSide;
 
 class MaintenancePanelServiceProvider extends ServiceProvider
 {
@@ -20,6 +23,12 @@ class MaintenancePanelServiceProvider extends ServiceProvider
         $this->routes();
         $this->views();
         $this->loadCommands();
+
+        $this->loadViewComponentsAs('maintenance-panel', [
+            Header::class,
+            RightSide::class,
+            Content::class
+        ]);
     }
 
     /**
