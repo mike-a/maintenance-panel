@@ -53,7 +53,7 @@
 <body class="holy-grail">
 <!-- Here we the base Project Header composer should be loading right here -->
 <header>
-    <x-basetheme-header />
+
 </header>
 
 <div class="holy-grail-body">
@@ -63,7 +63,7 @@
     </section>
     <div class="holy-grail-sidebar-2 hg-sidebar">
         <!-- Some side bar content would be displaying right here by the way -->
-        <x-basetheme-right-side />
+
     </div>
 </div>
 <!-- Here is the system footer information -->
