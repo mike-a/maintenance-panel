@@ -53,17 +53,17 @@
 <body class="holy-grail">
 <!-- Here we the base Project Header composer should be loading right here -->
 <header>
-
+    <x-maintenance-panel-header />
 </header>
 
 <div class="holy-grail-body">
     <section class="holy-grail-content">
-        Main Content
+        <x-maintenance-panel-content />
         <!-- The Required System content should be loading right in the hooks or override way -->
     </section>
     <div class="holy-grail-sidebar-2 hg-sidebar">
         <!-- Some side bar content would be displaying right here by the way -->
-
+        <x-maintenance-panel-right-side />
     </div>
 </div>
 <!-- Here is the system footer information -->

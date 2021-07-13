@@ -46,7 +46,7 @@ class SetupController extends Controller
 
         cache(['previous-path'=>'maintenance-panel']);
 
-        //return view('maintenance-panel::welcome');
+        return view('maintenance-panel::welcome');
     }
 
 
