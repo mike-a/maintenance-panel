@@ -8,6 +8,7 @@
 namespace Vivinet\MaintenancePanel\Http\Controllers;
 
 use Illuminate\Support\Facades\Artisan;
+use Vivinet\Basetheme\BasethemeServiceProvider;
 use Vivinet\MaintenancePanel\Http\Repositories\SetupRepository;
 
 class SetupController extends Controller
@@ -46,13 +47,20 @@ class SetupController extends Controller
         //This is used to keep the authentication process into the maintenance-panel stream
         cache(['previous-path'=>'maintenance-panel']);
 
-        //Here we need to declare variables required by the base theme layout with their corresponding name
-        $header_view = null;
-        $right_side_view = "maintenance-panel::components.right-side";
-        $content_view = "maintenance-panel::components.content";
-        $footer_view = null;
 
-        return view('maintenance-panel::welcome', compact("header_view", "right_side_view", "content_view", "footer_view"));
+        //check if the basetheme is loaded and return the correct view
+        if(class_exists(BasethemeServiceProvider::class)){
+            //Here we need to declare variables required by the base theme layout with their corresponding name
+            $header_view = null;
+            $right_side_view = "maintenance-panel::components.right-side";
+            $content_view = "maintenance-panel::components.content";
+            $footer_view = null;
+
+            return view('maintenance-panel::welcome', compact("header_view", "right_side_view", "content_view", "footer_view"));
+        } else{
+            return view("maintenance-panel::index");
+        }
+
     }
 
 
