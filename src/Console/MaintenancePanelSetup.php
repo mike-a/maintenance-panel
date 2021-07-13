@@ -48,7 +48,7 @@ class MaintenancePanelSetup extends Command
     public function handle()
     {
         $action = $this->arguments()['action'];
-
+        //dd($action);
         if($action) {
             switch ($action) {
                 case 'install_package':

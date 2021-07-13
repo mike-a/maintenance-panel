@@ -43,10 +43,16 @@ class SetupController extends Controller
                 Artisan::call('maintenance-panel:setup', ['action' => $data['action']]);
             }
         }
-
+        //This is used to keep the authentication process into the maintenance-panel stream
         cache(['previous-path'=>'maintenance-panel']);
 
-        return view('maintenance-panel::welcome');
+        //Here we need to declare variables required by the base theme layout with their corresponding name
+        $header_view = null;
+        $right_side_view = "maintenance-panel::components.right-side";
+        $content_view = "maintenance-panel::components.content";
+        $footer_view = null;
+
+        return view('maintenance-panel::welcome', compact("header_view", "right_side_view", "content_view", "footer_view"));
     }
 
 

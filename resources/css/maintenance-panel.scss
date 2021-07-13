@@ -21,14 +21,6 @@
     border: thin darkgray ridge;
 }
 
-header{
-    @include header($header-text-color, $header-background);
-    @include textFont(30px);
-    text-align: center;
-    border-bottom: thin white ridge;
-    padding: 20px;
-}
-
 footer{
     @include header($header-text-color, $header-background);
     @include textFont(32px);
