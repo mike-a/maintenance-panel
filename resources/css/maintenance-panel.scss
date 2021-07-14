@@ -30,14 +30,6 @@
     border: thin darkgray ridge;
 }
 
-footer{
-    @include header($header-text-color, $header-background);
-    @include textFont(32px);
-    text-align: center;
-    padding: 20px;
-
-}
-
 .btn-block {
     @include btn(100%);
     @include textFont(18px);
