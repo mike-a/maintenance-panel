@@ -52,7 +52,7 @@ class SetupController extends Controller
         if(class_exists(BasethemeServiceProvider::class)){
             //Here we need to declare variables required by the base theme layout with their corresponding name
             $header_view = null;
-            $right_side_view = "maintenance-panel::components.right-side";
+            $right_side_view = null; //"maintenance-panel::components.right-side";
             $content_view = "maintenance-panel::components.content";
             $footer_view = null;
 

@@ -9,6 +9,15 @@
     width: $width;
     padding: $padding;
     color: $button-text-color-primary;
+    cursor: pointer;
+}
+
+@mixin btnText($textSize){
+    @include textFont($textSize);
+    color: $text-color;
+    background: transparent;
+    border: 0px;
+    cursor: pointer;
 }
 
 @mixin textFont($size){
@@ -17,7 +26,7 @@
 }
 
 @mixin inputText($padding){
-    padding: $padding;
+    padding: 1px;
     border: thin darkgray ridge;
 }
 
@@ -38,10 +47,52 @@ footer{
     @include textFont(12px);
 }
 
+.btn-text {
+    @include btnText(16);
+}
+
+.btn-primary {
+    background: $primary-button-color;
+    color: white;
+    border: 1px solid $primary-button-color;
+    padding: 4 $default-padding;
+    cursor: pointer;
+}
+
 .group_item {
     display: flex;
 }
 
+.package-installation {
+    display: flex;
+
+    .group_item{
+        flex: 1 0 auto;
+
+        .form-group{
+            text-align: left;
+            label{
+                @include textFont(12px);
+            }
+
+            div{
+                margin-top: $default-padding;
+                display: flex;
+                flex-direction: column;
+
+                *{
+                    margin-top: 4px;
+                }
+            }
+        }
+
+
+    }
+
+    .package-control{
+        flex: 1 0 auto;
+    }
+}
 .packages-setup{
     margin-top: $default-padding;
     .package-item{
@@ -50,9 +101,15 @@ footer{
         .container{
             display: flex;
             flex-direction: row;
-
+            border: thin darkgray ridge;
+            padding-top: 20px;
+            padding-left: 5px;
+            margin-bottom: $default-padding;
+            div.package-name{
+                @include textFont(14px);
+            }
             div{
-                flex: 1 0 11.5%;
+                flex: 1 0 4.5%;
             }
         }
     }
@@ -65,4 +122,18 @@ form{
         @include inputText(5px);
         @include textFont(16px);
     }
+
+    input[type="text"]:hover{
+        border: thin darkgray ridge;
+    }
+}
+
+.circled-icon{
+    border: thin darkgray ridge;
+    border-radius: 50%;
+    font-weight: bold;
+}
+
+.icons{
+    font-size: 1.5em;
 }
