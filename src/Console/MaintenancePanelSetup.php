@@ -90,7 +90,7 @@ class MaintenancePanelSetup extends Command
     {
         $this->runShellOnCoreCommand('composer dump');
 
-        echo "Dumped and autoloaded  successfully";
+        echo "Dumped and auto loaded  successfully";
     }
 
 

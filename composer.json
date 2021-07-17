@@ -17,6 +17,7 @@
         }
     ],
     "require": {
+        "guzzlehttp/guzzle": "^7.0.1",
         "vivinet/user-management": "master"
     },
     "require-dev": {

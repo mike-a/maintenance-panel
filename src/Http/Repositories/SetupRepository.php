@@ -57,11 +57,14 @@ class SetupRepository
     }
 
     private function verify_before_add_repository($repos, $name) : bool{
+        //dd($repos, $name);
         $pattern = "#(".$name.")#";
         //echo $pattern;
         foreach($repos AS $repo){
-            if(preg_match($pattern, $repo['url']))
-                return false;
+            if(preg_match($pattern, $repo['url'])){
+                //dd("Found Here then");
+                return true;
+            }
         }
         return false;
     }
@@ -74,17 +77,18 @@ class SetupRepository
      */
     public function unplugPackage($data)
     {
+        //dd($data);
         //unload package assets
         $package_config = config('maintenance-panel.packages.' . $data['package']);
 
-        Artisan::call($package_config['install_command'], ['action' =>'unload_assets']);
+        Artisan::call($package_config['install_command'], ['action' =>'unload_assets']); // Every package should define this command to unload its own files from core assets and into the main
 
         // remove from composer.json
         $project_composer_file =dirname(config_path()) . '/composer.json';
         $json = json_decode(file_get_contents($project_composer_file), true);
 
         unset($json['require']['vivinet/' . $data['package']]);
-        file_put_contents($project_composer_file, json_encode($json));
+        file_put_contents($project_composer_file, json_encode($json, JSON_PRETTY_PRINT));
 
         //dump and update project
         $this->dumpAndUpdateProject($data['package']);
@@ -105,6 +109,8 @@ class SetupRepository
         Artisan::call('maintenance-panel:setup', ['action' => 'update_project']);
         // dump on project
         Artisan::call('maintenance-panel:setup', ['action' => 'dump']);
+
+        //Here the Project should be refreshed after being updated
     }
 
 
@@ -117,7 +123,7 @@ class SetupRepository
     public function preparePackageInstallation($data)
     {
         $packages = config('maintenance-panel.packages');
-
+        //Here Check the error
         $this->addToPanelConfigFile($data, $packages);
 
         $this->addPackageToComposerJson($data);
@@ -129,11 +135,13 @@ class SetupRepository
      */
     private function addToPanelConfigFile($data, $packages)
     {
+        //dd($data, $packages);
         if(array_key_exists($data['package_name'], $packages)) {
             abort(422, "Package already exists");
         } else {
             config(['maintenance-panel.packages.' . $data['package_name'] => [
                 'installed' => 'false',
+                'assets' => 'unloaded',
                 'source_type' => $data['source_type'],
                 'url' => $data['url'],
                 'install_command' => $data['install_command']
@@ -161,17 +169,24 @@ class SetupRepository
             $json['repositories'] = [];
         }
 
-        array_push($json['repositories'], [
-            'type' => $data['source_type'],
-            'url' => $data['url']
-        ]);
-
-        if($data['source_type'] === 'path') {
-            $json['require']['vivinet/' . $data['package_name']] = '@dev';
-        } else {
-            $json['require']['vivinet/' . $data['package_name']] = 'dev-master';
+        //check if the repository were added before
+        if(!$this->verify_before_add_repository($json['repositories'], $data['url'])){
+            array_push($json['repositories'], [
+                'type' => $data['source_type'],
+                'url' => $data['url']
+            ]);
         }
 
-        file_put_contents($project_composer_file, json_encode($json));
+        if(!$this->verify_before_add_require($json['require'], "vivinet/" . $data['package_name'])){
+
+            if($data['source_type'] === 'path') {
+                $json['require']['vivinet/' . $data['package_name']] = '@dev';
+            } else {
+                $json['require']['vivinet/' . $data['package_name']] = 'dev-master';
+            }
+
+        }
+
+        file_put_contents($project_composer_file, json_encode($json, JSON_PRETTY_PRINT));
     }
 }
