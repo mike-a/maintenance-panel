@@ -38,6 +38,7 @@ class MaintenancePanelServiceProvider extends ServiceProvider
     {
         include_once(__DIR__.'/helpers.php');
         $this->mergeConfigFrom(__DIR__ . '/../config/maintenance-panel.php', 'maintenance-panel');
+        $this->mergeConfigFrom(__DIR__ . '/../config/maintenance-panel-auth.php', 'maintenance-panel-auth');
     }
 
     /**
