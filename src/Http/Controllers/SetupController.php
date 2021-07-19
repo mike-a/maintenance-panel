@@ -51,6 +51,8 @@ class SetupController extends Controller
                 //Send the request to get the real name from the github
                 $target_github_api = "https://api.github.com/repos/{$github_username}/{$repository_name}/contents/composer.json";
                 $github_token = config('maintenance-panel.github_token');
+
+                dd($github_token);
                 $github_client = new Client();
                 try{
                     $github_request = $github_client->request(
