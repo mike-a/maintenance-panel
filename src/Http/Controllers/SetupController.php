@@ -144,6 +144,7 @@ class SetupController extends Controller
             }
             else
             {
+                //dd($data);
                 $package_config = config('maintenance-panel.packages.' . $data['package']);
                 //dd($package_config['install_command'], ['action' => $data['action']]);
                 Artisan::call($package_config['install_command'], ['action' => $data['action']]);
