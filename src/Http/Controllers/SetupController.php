@@ -12,6 +12,8 @@ use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Artisan;
 use Vivinet\Basetheme\BasethemeServiceProvider;
 use Vivinet\MaintenancePanel\Http\Repositories\SetupRepository;
+use Exception;
+use Illuminate\Support\Facades\Log;
 
 class SetupController extends Controller
 {
@@ -50,9 +52,9 @@ class SetupController extends Controller
                 $repository_name = preg_replace("/(.git)/", "", $repo_info[4]??"");
                 //Send the request to get the real name from the github
                 $target_github_api = "https://api.github.com/repos/{$github_username}/{$repository_name}/contents/composer.json";
-                $github_token = config('maintenance-panel.github_token');
+                $github_token = config('maintenance-panel-auth.github_token');
 
-                dd($github_token);
+                //dd($github_token);
                 $github_client = new Client();
                 try{
                     $github_request = $github_client->request(
@@ -80,9 +82,10 @@ class SetupController extends Controller
                     } else {
                         //dd($github_request);
                         //Here some errors occurs here.
+                        Log::channel('daily')->info("Package can't be loaded");
                     }
                 } catch(GuzzleException $e){
-                    throw new \Exception($e->getMessage());
+                    throw new Exception($e->getMessage());
                 }
                 //dd($data, $repo_info,$github_username,$repository_name);
                 $this->repo->preparePackageInstallation($data);
