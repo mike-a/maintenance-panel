@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm
- * User: jjoek
+ * User: john
  * Date: 6/1/21
  * Time: 2:07 pm
  */
@@ -9,6 +9,7 @@ namespace Vivinet\MaintenancePanel\Http\Controllers;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Artisan;
 use Vivinet\Basetheme\BasethemeServiceProvider;
 use Vivinet\MaintenancePanel\Http\Repositories\SetupRepository;
@@ -23,8 +24,10 @@ class SetupController extends Controller
     {
         $this->repo = $repo;
     }
+
     /**
      * return the setup and configurations page
+     * @throws Exception
      */
     public function setup()
     {
@@ -51,7 +54,7 @@ class SetupController extends Controller
                 $github_username = $repo_info[3]??"";
                 $repository_name = preg_replace("/(.git)/", "", $repo_info[4]??"");
                 //Send the request to get the real name from the github
-                $target_github_api = "https://api.github.com/repos/{$github_username}/{$repository_name}/contents/composer.json";
+                $target_github_api = "https://api.github.com/repos/".$github_username."/".$repository_name."/contents/composer.json";
                 $github_token = config('maintenance-panel-auth.github_token');
 
                 //dd($github_token);
@@ -62,7 +65,7 @@ class SetupController extends Controller
                         $target_github_api,
                         [
                             'headers' => [
-                                'Authorization' => "Bearer {$github_token}",
+                                'Authorization' => "Bearer ".$github_token,
                             ]
                         ]
                     );
@@ -85,7 +88,8 @@ class SetupController extends Controller
                         Log::channel('daily')->info("Package can't be loaded");
                     }
                 } catch(GuzzleException $e){
-                    throw new Exception($e->getMessage());
+                    //throw new Exception($e->getMessage());
+                    Log::channel("daily")->error($e->getMessage());
                 }
                 //dd($data, $repo_info,$github_username,$repository_name);
                 $this->repo->preparePackageInstallation($data);
@@ -102,7 +106,7 @@ class SetupController extends Controller
         cache(['previous-path'=>'maintenance-panel']);
 
 
-        //check if the basetheme is loaded and return the correct view
+        //check if the base theme is loaded and return the correct view
         if(class_exists(BasethemeServiceProvider::class)){
             //Here we need to declare variables required by the base theme layout with their corresponding name
             $header_view = null;
@@ -122,14 +126,14 @@ class SetupController extends Controller
      * package setup
      * @todo: check that the package is installed
      */
-    public function packageSetup()
+    public function packageSetup() : RedirectResponse
     {
         $data = request()->validate([
             'package' => 'required',
             'action' => 'required|in:load_assets,compile,park,unplug,info,test'
         ]);
         //dd($data);
-        if($data['action'] === 'park')
+        if("park" === $data['action'])
         {
             //dd($data);
             /**
@@ -171,7 +175,7 @@ class SetupController extends Controller
                         config(['maintenance-panel.packages.' . $data['package'] => $package_installed]);
 
                         //Set the configuration information
-                        $text = '<?php return ' . var_export(config('maintenance-panel'), true) . ';';
+                        $text = "<?php return " . var_export(config('maintenance-panel'), true);
 
                         $config_path = dirname(dirname(dirname(dirname(__FILE__)))) . '/config/maintenance-panel.php';
 

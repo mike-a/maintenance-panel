@@ -72,7 +72,7 @@
                     <form action="{{ route('maintenance-panel.package-setup') }}" method="post">
                         @csrf
                         <input hidden name="package" value="{{ $name }}"/>
-                        <button class="btn-block btn-sm btn-primary {{ $package_installed == true?'':'disabled'  }}" {{ $package_installed == false ? 'disabled' : '' }} name="action" value="compile" type="submit">Compile package</button>
+                        <button class="btn-block btn-sm btn-primary {{ $assets_info == "loaded"?'disabled':''  }}" {{ $package_installed == false ? 'disabled' : '' }} name="action" value="compile" type="submit">Compile package</button>
                     </form>
                 </div>
 
@@ -96,7 +96,7 @@
                     <form action="{{ route('maintenance-panel.package-setup') }}" method="post">
                         @csrf
                         <input hidden name="package" value="{{ $name }}"/>
-                        <button class="{{ $assets_info  == 'loaded' && $name != 'basetheme' ?'btn-text':'btn-default' }}" {{ $assets_info == 'loaded' && $name != 'basetheme' ? '' : 'disabled' }} name="action" value="park" type="submit">Park</button>
+                        <button class="btn-text {{ $assets_info  == 'loaded' && $name != 'basetheme' ?'':'disabled' }}" {{ $assets_info == 'loaded' && $name != 'basetheme' ? '' : 'disabled' }} name="action" value="park" type="submit">Park</button>
                     </form>
                 </div>
                 <!-- <div class="package-action">
@@ -118,13 +118,13 @@
                     <form action="{{ route('maintenance-panel.package-setup') }}" method="post">
                         @csrf
                         <input hidden name="package" value="{{ $name }}"/>
-                        <button class="{{$package_installed == false?'btn-default':'btn-text'}}" {{ $package_installed == false ? 'disabled' : '' }} name="action" value="test" type="submit">Test</button>
+                        <button class="btn-text {{$package_installed == false?'disabled':''}}" {{ $package_installed == false ? 'disabled' : '' }} name="action" value="test" type="submit">Test</button>
                     </form>
                 </div>
             </div>
 
-            @if(Session::has('package_info'))
-                <?php $session_data = json_decode(Session::get('package_info'), true);  ?>
+            @if(session()->has('package_info'))
+                <?php $session_data = json_decode(session('package_info'), true);  ?>
 
                 @if($session_data['package_name'] === $name)
                     <span>{{ $session_data['info'] }}</span>
