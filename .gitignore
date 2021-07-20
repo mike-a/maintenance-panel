@@ -1,2 +1,5 @@
 .git
+mix-manifest.json
+package-lock.json
 /vendor/
+/node_modules
