@@ -179,7 +179,7 @@ class SetupController extends Controller
 
                         $config_path = dirname(dirname(dirname(dirname(__FILE__)))) . '/config/maintenance-panel.php';
 
-                        file_put_contents($config_path, $text);
+                        file_put_contents($config_path, $text.";");
                         //dd($package_installed);
                         break;
                     default:
