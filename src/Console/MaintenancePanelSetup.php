@@ -129,7 +129,7 @@ class MaintenancePanelSetup extends Command
             //$project_path = dirname(dirname(dirname(dirname(dirname(dirname(__FILE__))))));
 
             $output = shell_exec('cd ' . $project_path . ' && ' . $command);
-            dd($output, $project_path, $command, __FILE__, config_path(), exec('whoami') );
+            //dd($output, $project_path, $command, __FILE__, config_path(), exec('whoami') );
             Log::channel('daily')->info($output);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
