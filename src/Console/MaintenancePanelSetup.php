@@ -111,7 +111,7 @@ class MaintenancePanelSetup extends Command
      */
     private function compileProject()
     {
-        $this->runShellOnCoreCommand('npm install && npm run dev');
+        $this->runShellOnCoreCommand('npm install && sudo npm run dev');
 
         //Log::channel('daily')->info();
 
